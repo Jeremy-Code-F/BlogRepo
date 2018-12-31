@@ -13,6 +13,16 @@
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\images\home.png" />
+    <None Include="wwwroot\js\KendoScripts.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Content\Images\" />
+    <Folder Include="Scripts\" />
+  </ItemGroup>
   
 
 </Project>
