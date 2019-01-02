@@ -1,0 +1,62 @@
+﻿<link href="~/css/LoginPageStyle.css" rel="stylesheet" />
+<script src="~/js/CreateAccountScript.js"></script>
+<script src="~/js/md5-min.js"></script>
+@{
+    ViewData["Title"] = "Login";
+}
+
+    <div class="BackgroundColor">
+        <h2 style="text-align: center;">Login Page</h2>
+    </div>
+
+    <div class="container-fluid BackgroundColor">
+        <div class="row">
+
+            <div class="col-md-2">
+                <p>Username:</p>
+
+            </div>
+            <div class="col-md-2">
+                <input id="usernameInput" />
+
+            </div>
+
+        </div>
+        <div class="row">
+
+            <div class="col-md-2">
+
+                <p>Password:</p>
+            </div>
+            <div class="col-md-2">
+                <input id="passwordInput" type="password" />
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-2">
+
+                <p>Email Address:</p>
+            </div>
+            <div class="col-md-2">
+                <input id="emailInput" />
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <button style="margin-left: 80%;" onclick="CreateAccount()">Create</button>
+                <p>Forgot Password?</p>
+                <p>Create an account.</p>
+                <p>Resend my activation email</p>
+
+            </div>
+        </div>
+    </div>
+
+
