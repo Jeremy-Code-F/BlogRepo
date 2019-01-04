@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DigitalMVC.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,16 +10,28 @@ namespace DigitalMVC.Controllers
 {
     public class AccountController : Controller
     {
-        //http://localhost:53579/api/createaccount <- Returns success now
+        //http://localhost:53579/api/createaccount <- Returns success now (when running)
         [HttpPost]
         [Route("/api/CreateAccount")]
-        public bool CreateAccount([FromBody] string userName, string password)
+        public bool CreateAccount([FromBody] LoginModel login)
         {
-            //TODO: Way to send this that CANNOT be replicated from someone else
+            DBConnectionHelper dbHelp = new DBConnectionHelper("digitaloceanmvc");
+       
     
-            Tuple<string, string> loginInfo = SHAHash.HashPassword(userName, password);
-            Console.WriteLine(loginInfo.Item1);//Contains the username * item2 contains the password
-            
+            Tuple<string, string> loginInfo = SHAHash.HashPassword(login.username, login.password);
+            Console.WriteLine(loginInfo.Item1 + loginInfo.Item2);// Item 1 Contains the password * item2 contains the salt
+
+            //store username, password, email, salt in db
+            dbHelp.IsConnect();
+            try
+            {
+                dbHelp.InsertUser(login.username, loginInfo.Item1, login.email, loginInfo.Item2);
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            dbHelp.Connection.Close();
+
             return true;
         }
     }

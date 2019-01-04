@@ -129,9 +129,9 @@ namespace DigitalMVC
         public void InsertUser(string username, string base64Password, string email, string base64Salt)
         {
             MySqlCommand comm = connection.CreateCommand();
-            comm.CommandText = "INSERT INTO testtable(id,name,password,email,salt) VALUES(?id, ?name, ?password, ?email, ?salt)";
-            comm.Parameters.AddWithValue("id", "3");
-            comm.Parameters.AddWithValue("name", "jeremy Farmer");
+            comm.CommandText = "INSERT INTO user(id,username,password,email,salt) VALUES(?id, ?username, ?password, ?email, ?salt)";
+            comm.Parameters.AddWithValue("id", null); // Passing null to activate the auto_increment on the ID
+            comm.Parameters.AddWithValue("username", username);
             comm.Parameters.AddWithValue("password", base64Password);
             comm.Parameters.AddWithValue("email", email);
             comm.Parameters.AddWithValue("salt", base64Salt);
