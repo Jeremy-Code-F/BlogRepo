@@ -1,7 +1,9 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Text;
+using System.Threading.Tasks;
 
 
 /* Example Usage
@@ -126,7 +128,7 @@ namespace DigitalMVC
             
         }
 
-        public void InsertUser(string username, string base64Password, string email, string base64Salt)
+        public async Task<int> InsertUser(string username, string base64Password, string email, string base64Salt)
         {
             MySqlCommand comm = connection.CreateCommand();
             comm.CommandText = "INSERT INTO user(id,username,password,email,salt) VALUES(?id, ?username, ?password, ?email, ?salt)";
@@ -137,13 +139,36 @@ namespace DigitalMVC
             comm.Parameters.AddWithValue("salt", base64Salt);
             try
             {
-                comm.ExecuteNonQuery();
+                int x = await comm.ExecuteNonQueryAsync();
+                return x;
 
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Exception inserting record: " + ex);
+                return 0;
             }
+        }
+
+        //0 not successful 1 is successful
+        public async Task<int> ConfirmPassword(string username, string base64Password)
+        {
+            MySqlCommand comm = connection.CreateCommand();
+
+            DbDataReader reader = await comm.ExecuteReaderAsync();
+
+            while (reader.Read())
+            {
+                if(reader["password"].ToString() == base64Password)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            return 0;
         }
     }
 }
