@@ -27,3 +27,25 @@
 function encodePassword(password) {
 
 }
+
+
+function loginUser() {
+    let userName = $("#usernameInput").val();
+    let password = $("#passwordInput").val();
+    let email = $("#emailInput").val();
+    hashedPass = hex_md5(password);
+
+    $.ajax({
+        url: "/api/LoginUser/",
+        dataType: 'json',
+        contentType: 'application/json',
+        type: 'POST',
+        data: payLoad,
+        success: function (response) {
+            console.log("Success : " + response);
+        },
+        error: function (err) {
+            console.log("Error hit " + err.responseText);
+        }
+    });
+}

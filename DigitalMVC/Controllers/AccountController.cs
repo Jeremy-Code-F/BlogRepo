@@ -5,6 +5,10 @@ using System.Threading.Tasks;
 using DigitalMVC.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Web;
+using Microsoft.AspNetCore.Http;
+
 
 namespace DigitalMVC.Controllers
 {
@@ -52,11 +56,11 @@ namespace DigitalMVC.Controllers
 
         [Route("/api/LoginUser")]
         [HttpPost]
-        public async Task<int> LoginUser([FromBody] LoginModel login)
+        public async Task<string> LoginUser([FromBody] LoginModel login)
         {
             DBConnectionHelper dbHelp = new DBConnectionHelper("digitaloceanmvc");
 
-            int returnValue;
+            string returnValue;
             Tuple<string, string> loginInfo = SHAHash.HashPassword(login.username, login.password);
             Console.WriteLine(loginInfo.Item1 + loginInfo.Item2);// Item 1 Contains the password * item2 contains the salt
 
@@ -64,13 +68,24 @@ namespace DigitalMVC.Controllers
             dbHelp.IsConnect();
             try
             {
-                returnValue = await dbHelp.InsertUser(login.username, loginInfo.Item1, login.email, loginInfo.Item2);
+                returnValue = await dbHelp.ConfirmPassword(login.username, loginInfo.Item1);
+              //
+                   try
+                {
+     
+                    HttpContext.Session.SetString("UserName", returnValue);
+    
+                }catch(Exception ex)
+                {
+                    return ex.ToString();
+                }
+
 
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                returnValue = 0;
+                returnValue = null;
             }
             finally
             {

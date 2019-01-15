@@ -152,7 +152,7 @@ namespace DigitalMVC
         }
 
         //0 not successful 1 is successful
-        public async Task<int> ConfirmPassword(string username, string base64Password)
+        public async Task<string> ConfirmPassword(string username, string base64Password)
         {
             MySqlCommand comm = connection.CreateCommand();
 
@@ -162,14 +162,14 @@ namespace DigitalMVC
             {
                 if(reader["password"].ToString() == base64Password)
                 {
-                    return 1;
+                    return reader["username"].ToString();
                 }
                 else
                 {
-                    return 0;
+                    return null;
                 }
             }
-            return 0;
+            return null;
         }
     }
 }
