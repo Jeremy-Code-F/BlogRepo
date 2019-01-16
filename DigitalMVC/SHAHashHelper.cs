@@ -55,7 +55,7 @@ namespace DigitalMVC
 
             Console.WriteLine("Hashed string : " + hashValue + "Salt : " + generatedSalt);
             Console.WriteLine("Base 64 salt : " + base64Salt);
-            CheckPassword(plainText, hashValue, generatedSalt);
+            //CheckPassword(plainText, hashValue, generatedSalt);
 
             return loginInfo;
         }
@@ -141,6 +141,43 @@ namespace DigitalMVC
             dbcon.Close();
 
             return true;
+        }
+
+        public static string HashPasswordWithSalt(string password, string salt)
+        {
+            string plainText = password;
+            string hashedPassword = string.Empty;
+            byte[] saltByte = Convert.FromBase64String(salt);
+            byte[] hashWithSaltBytes;
+
+            byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
+            byte[] plainTextWithSalt = new byte[plainTextBytes.Length + saltByte.Length];
+
+            for (int i = 0; i < plainTextBytes.Length; i++)
+                plainTextWithSalt[i] = plainTextBytes[i];
+
+            for (int i = 0; i < saltByte.Length; i++)
+                plainTextWithSalt[plainTextBytes.Length + i] = saltByte[i];
+
+
+            SHA256Managed hashedString = new SHA256Managed();
+            byte[] hash = hashedString.ComputeHash(plainTextWithSalt);
+            hashWithSaltBytes = new byte[hash.Length + saltByte.Length];
+
+            // Copy hash bytes into resulting array.
+            for (int i = 0; i < hash.Length; i++)
+                hashWithSaltBytes[i] = hash[i];
+
+            // Append salt bytes to the result.
+            for (int i = 0; i < saltByte.Length; i++)
+                hashWithSaltBytes[hash.Length + i] = saltByte[i];
+
+            // Convert result into a base64-encoded string.
+            string hashPassword = Convert.ToBase64String(hashWithSaltBytes);
+            //string base64Salt = Convert.ToBase64String(generatedSalt);
+    
+
+            return hashPassword;
         }
        
     }

@@ -59,21 +59,27 @@ namespace DigitalMVC.Controllers
         public async Task<string> LoginUser([FromBody] LoginModel login)
         {
             DBConnectionHelper dbHelp = new DBConnectionHelper("digitaloceanmvc");
+            PasswordData passData;
 
             string returnValue;
-            Tuple<string, string> loginInfo = SHAHash.HashPassword(login.username, login.password);
-            Console.WriteLine(loginInfo.Item1 + loginInfo.Item2);// Item 1 Contains the password * item2 contains the salt
+            //Tuple<string, string> loginInfo = SHAHash.HashPassword(login.username, login.password);
+            //Console.WriteLine(loginInfo.Item1 + loginInfo.Item2);// Item 1 Contains the password * item2 contains the salt
 
             //store username, password, email, salt in db
             dbHelp.IsConnect();
             try
             {
-                returnValue = await dbHelp.ConfirmPassword(login.username, loginInfo.Item1);
-              //
+                string hashPassword;
+                passData = await dbHelp.GetPasswordData(login.username);
+                //TODO: Sha hash the password with the salt from the DB
+                hashPassword = SHAHash.HashPasswordWithSalt(login.password, passData.PassWord);
+                Console.WriteLine(hashPassword);
+                return hashPassword;
+              //TODO: Check if the password matches the password in the DB
                    try
                 {
      
-                    HttpContext.Session.SetString("UserName", returnValue);
+                    HttpContext.Session.SetString("UserName", login.username);
     
                 }catch(Exception ex)
                 {

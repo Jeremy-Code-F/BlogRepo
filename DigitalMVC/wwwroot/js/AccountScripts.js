@@ -4,7 +4,7 @@
     let email = $("#emailInput").val();
     hashedPass = hex_md5(password);
 
-    let payLoad = '{"username": "' + userName + '", "password": "' + password + '", "email": "' + email + '"}';
+    let payLoad = '{"username": "' + userName + '", "password": "' + hashedPass + '", "email": "' + email + '"}';
 
     $.ajax({
         url: "http://localhost:53579/api/CreateAccount/",
@@ -46,6 +46,8 @@ function loginUser() {
     let password = $("#passwordInput").val();
     let email = $("#emailInput").val();
     hashedPass = hex_md5(password);
+
+    let payLoad = '{"username": "' + userName + '", "password": "' + hashedPass + '", "email": "' + email + '"}';
 
     $.ajax({
         url: "/api/LoginUser/",
