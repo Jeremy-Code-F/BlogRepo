@@ -15,13 +15,13 @@ namespace DigitalMVC.Controllers
     public class AccountController : Controller
     {
         //http://localhost:53579/api/createaccount <- Returns success now (when running)
-        [HttpPost]
         [Route("/api/CreateAccount")]
-        public async Task<int> CreateAccount([FromBody] LoginModel login)
+        [HttpPost] 
+        public async Task<string> CreateAccount([FromBody] LoginModel login)
         {
             DBConnectionHelper dbHelp = new DBConnectionHelper("digitaloceanmvc");
 
-            int returnValue;
+            string returnValue;
             Tuple<string, string> loginInfo = SHAHash.HashPassword(login.username, login.password);
             Console.WriteLine(loginInfo.Item1 + loginInfo.Item2);// Item 1 Contains the password * item2 contains the salt
 
@@ -34,7 +34,7 @@ namespace DigitalMVC.Controllers
             }catch(Exception ex)
             {
                 Console.WriteLine(ex);
-                returnValue = 0;
+                returnValue = ex.Message;
             }
             finally
             {

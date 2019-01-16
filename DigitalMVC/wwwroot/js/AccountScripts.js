@@ -7,21 +7,33 @@
     let payLoad = '{"username": "' + userName + '", "password": "' + password + '", "email": "' + email + '"}';
 
     $.ajax({
-        url: "/api/CreateAccount/",
+        url: "http://localhost:53579/api/CreateAccount/",
         dataType: 'json',
         contentType: 'application/json',
-        type: 'GET',
+        type: 'POST',
         data: payLoad,
         success: function (response) {
-            console.log("Success : " + response);
+            alert("Succesfully created account : " + response);
+            ClearInputs();
         },
         error: function (err) {
-            console.log("Error hit " + err.responseText);
+            alert(err.responseText);
+            ClearInputs();
         }
     });
     //TODO: Pass this to /api/CreateAccount in the body w/ Ajax call
 
  
+}
+
+function ClearInputs() {
+    let userName = document.getElementById("usernameInput");
+    let password = document.getElementById("passwordInput");
+    let email = document.getElementById("emailInput");
+
+    userName.value = "";
+    password.value = "";
+    email.value = "";
 }
 
 function encodePassword(password) {

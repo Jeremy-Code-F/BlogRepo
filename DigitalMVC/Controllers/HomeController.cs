@@ -36,6 +36,13 @@ namespace DigitalMVC.Controllers
             return View();
         }
 
+        public IActionResult CreateAccount()
+        {
+            ViewData["Message"] = "Create Account Page.";
+
+            return View();
+        }
+
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

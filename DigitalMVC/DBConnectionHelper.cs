@@ -128,7 +128,7 @@ namespace DigitalMVC
             
         }
 
-        public async Task<int> InsertUser(string username, string base64Password, string email, string base64Salt)
+        public async Task<string> InsertUser(string username, string base64Password, string email, string base64Salt)
         {
             MySqlCommand comm = connection.CreateCommand();
             comm.CommandText = "INSERT INTO user(id,username,password,email,salt) VALUES(?id, ?username, ?password, ?email, ?salt)";
@@ -141,13 +141,13 @@ namespace DigitalMVC
             try
             {
                 int x = await comm.ExecuteNonQueryAsync();
-                return x;
+                return x.ToString();
 
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Exception inserting record: " + ex);
-                return 0;
+                return ex.Message;
             }
         }
 
