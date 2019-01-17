@@ -1,7 +1,17 @@
 ﻿@{
     ViewData["Title"] = "About";
 }
-<h2>@ViewData["Title"]</h2>
+<h2>@ViewData["Title"].</h2>
 <h3>@ViewData["Message"]</h3>
 
-<p>Use this area to provide additional information.</p>
+
+<table class="table table-responsive">
+    <tr>
+        <th>Name</th>
+        <th>Fiscal Year</th>
+    </tr>
+    <tr>
+        <td>@ViewBag.Name</td>
+        <td>@ViewBag.FY</td>
+    </tr>
+</table>

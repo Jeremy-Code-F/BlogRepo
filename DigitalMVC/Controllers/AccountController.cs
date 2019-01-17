@@ -74,6 +74,8 @@ namespace DigitalMVC.Controllers
                 //TODO: Sha hash the password with the salt from the DB
                 hashPassword = SHAHash.HashPasswordWithSalt(login.password, passData.PassWord);
                 Console.WriteLine(hashPassword);
+
+                HttpContext.Session.SetString("UserName", login.username);
                 return hashPassword;
               //TODO: Check if the password matches the password in the DB
                    try
