@@ -44,10 +44,10 @@ function encodePassword(password) {
 function loginUser() {
     let userName = $("#usernameInput").val();
     let password = $("#passwordInput").val();
-    let email = $("#emailInput").val();
+    //let email = $("#emailInput").val();
     hashedPass = hex_md5(password);
 
-    let payLoad = '{"username": "' + userName + '", "password": "' + hashedPass + '", "email": "' + email + '"}';
+    let payLoad = '{"username": "' + userName + '", "password": "' + hashedPass + '"}';
 
     $.ajax({
         url: "/api/LoginUser/",

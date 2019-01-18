@@ -36,24 +36,15 @@
 
     </div>
 
-    <div class="row">
-
-        <div class="col-md-2">
-
-            <p>Email Address:</p>
-        </div>
-        <div class="col-md-2">
-            <input id="emailInput" />
-
-        </div>
-
-    </div>
+    
 
     <div class="row">
         <div class="col-md-4">
-            <button style="margin-left: 80%;" onclick="loginUser()">Create</button>
+            <button style="margin-left: 80%;" onclick="loginUser()">Login</button>
             <p>Forgot Password?</p>
-            <p>Create an account.</p>
+            <a asp-action="CreateAccount" asp-controller="home">             
+                <p>Create an account.</p>
+            </a>
             <p>Resend my activation email</p>
 
         </div>
