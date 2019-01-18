@@ -62,10 +62,7 @@ namespace DigitalMVC.Controllers
             PasswordData passData;
 
             string returnValue;
-            //Tuple<string, string> loginInfo = SHAHash.HashPassword(login.username, login.password);
-            //Console.WriteLine(loginInfo.Item1 + loginInfo.Item2);// Item 1 Contains the password * item2 contains the salt
 
-            //store username, password, email, salt in db
             dbHelp.IsConnect();
             try
             {
@@ -77,18 +74,6 @@ namespace DigitalMVC.Controllers
 
                 HttpContext.Session.SetString("UserName", login.username);
                 return hashPassword;
-              //TODO: Check if the password matches the password in the DB
-                   try
-                {
-     
-                    HttpContext.Session.SetString("UserName", login.username);
-    
-                }catch(Exception ex)
-                {
-                    return ex.ToString();
-                }
-
-
             }
             catch (Exception ex)
             {
@@ -105,5 +90,14 @@ namespace DigitalMVC.Controllers
 
         }
 
+        [Route("/api/ResendEmail")]
+        [HttpPost]
+        public async Task<string> ResendEmail([FromBody] LoginModel login)
+        {
+            DBConnectionHelper connHelper = new DBConnectionHelper("digitaloceanmvc");
+            string emailAddress = await connHelper.GetEmail(login.username);
+
+            return emailAddress;
+        }
     }
 }

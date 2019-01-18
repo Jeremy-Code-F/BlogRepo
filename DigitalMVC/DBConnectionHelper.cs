@@ -190,5 +190,25 @@ namespace DigitalMVC
 
            
         }
+
+
+        public async Task<string> GetEmail(string username)
+        {
+
+            MySqlCommand comm = connection.CreateCommand();
+            //SELECT salt, password FROM digitaloceanmvc.user WHERE username LIKE "Domgrar";
+            comm.CommandText = "SELECT email FROM user WHERE username LIKE " + "\"" + username + "\";";
+            DbDataReader reader = await comm.ExecuteReaderAsync();
+
+            while (reader.Read())
+            {
+               // PasswordData passData = new PasswordData(reader["salt"].ToString(), reader["password"].ToString());
+                return reader["email"].ToString();
+            }
+
+            return null;
+
+
+        }
     }
 }
